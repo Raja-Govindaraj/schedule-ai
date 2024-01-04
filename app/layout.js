@@ -1,5 +1,8 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
+import BrandLogo from "../public/brand-logo.svg";
+import Image from 'next/image';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,7 +14,21 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} bg-white`}>
+        <header className="bg-white min-h-[95px] border-b border-b-[#c4c4c4] px-[30px] fixed top-0 left-0 right-0">
+            <Image src={BrandLogo} alt="Skillsoft Coaching Logo"  className="absolute -translate-y-1/2 top-1/2 left-[30px]" />
+        </header>
+        <aside className="bg-[#f4f4f4] w-56 h-full fixed top-[95px] px-3">
+          <nav>
+            <Link href="/apps">Apps</Link>
+          </nav>
+        </aside>
+        <div className="grid grid-cols-12 px-6 py-4">
+          <div className="col-span-12 col-start-2">
+            {children}
+          </div>
+        </div>
+      </body>
     </html>
   )
 }
