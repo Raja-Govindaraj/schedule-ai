@@ -1,6 +1,19 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
+import { google } from "googleapis";
+
+const oauth2Client = new google.auth.OAuth2(
+  "726031518310-anjarhb29357t2rik7c1kctia9s222b7.apps.googleusercontent.com", //YOUR_CLIENT_ID
+  "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", //YOUR_CLIENT_SECRET
+  // YOUR_REDIRECT_URL
+); 
+
+// generate a url that asks permissions for Blogger and Google Calendar scopes
+const scopes = [
+  'https://www.googleapis.com/auth/calendar.events',
+  'https://www.googleapis.com/auth/calendar.readonly'
+];
 
 export default function Home() {
   const [isInstalled, setIsInstalled] = useState(false);
@@ -9,7 +22,16 @@ export default function Home() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
+      setIsInstalled(true);
     }, [3000]);
+    const url = oauth2Client.generateAuthUrl({
+      // 'online' (default) or 'offline' (gets refresh_token)
+      // access_type: 'offline',
+    
+      // If you only need one scope you can pass it as a string
+      scope: scopes
+    });
+    console.log("url", url);
   };
 
   return (
@@ -154,11 +176,6 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="max-w-44 absolute right-0 mr-4 flex flex-wrap justify-end gap-1">
-            <div className="font-medium inline-flex items-center justify-center rounded gap-x-1 bg-[#e4fbe9] text-[#285231] py-1 px-1.5 text-xs leading-3">
-              Installed
-            </div>
-          </div>
         </div>
 
         <div className="col-span-1 border-[#f3f4f6] relative flex min-h-64 flex-col rounded-md border p-5">
@@ -213,11 +230,6 @@ export default function Home() {
                 </svg>
                 Install
               </button>
-            </div>
-          </div>
-          <div className="max-w-44 absolute right-0 mr-4 flex flex-wrap justify-end gap-1">
-            <div className="font-medium inline-flex items-center justify-center rounded gap-x-1 bg-[#e4fbe9] text-[#285231] py-1 px-1.5 text-xs leading-3">
-              Installed
             </div>
           </div>
         </div>
